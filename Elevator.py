@@ -2,9 +2,9 @@ from Entity import Entity
 import random
 
 class Elevator(Entity):
-    def __init__(self):
+    def __init__(self, floors=5):
         Entity.__init__(self)
-        self.floors = 5
+        self.floors = floors
         self.current_floor = 1
         self.speed = 1
         self.capacity = 4
@@ -38,8 +38,8 @@ class Elevator(Entity):
         self.y = f*self.building.floorh
 
     def should_stop(self):
-        print self.current_floor, self.requests, self.state
-        print self.current_floor
+        # print self.current_floor, self.requests, self.state
+        # print self.current_floor
         request = self.requests[self.current_floor]
         return request == 2 or (request == 1 and self.state == "GoUp") or (request == -1 and self.state == "GoDown")
 
@@ -73,7 +73,7 @@ class Elevator(Entity):
         if self.timer > 0:
             self.timer -= 1
             return
-        print self.state
+        print self.state, self.requests
         if self.state == "Idle":
             self.decide()
 
@@ -86,8 +86,11 @@ class Elevator(Entity):
         # if self.current_floor is not None and self.should_stop():
         if self.current_floor is not None and self.requests[self.current_floor] in self.return_stoplist():
             # Clear request
+            print self.requests
+            print "CLEARED"
             self.requests[self.current_floor] = 0
             print self.requests
+            # print self.requests
             self.wait_for_steps(100)
             self.decide()
 

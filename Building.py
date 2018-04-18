@@ -2,9 +2,9 @@ from Entity import Entity
 
 
 class Building(Entity):
-    def __init__(self, w, h):
+    def __init__(self, w, h, floors):
         Entity.__init__(self)
-        self.floors = 5
+        self.floors = floors
         self.height = h
         self.width = w
         self.floorh = self.height / self.floors

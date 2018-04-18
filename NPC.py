@@ -21,7 +21,7 @@ class NPC(Entity):
 
     def animate(self, canv):
         x1, y1, x2, y2 = canv.coords(self.handle)
-        canv.move(self.handle, self.x - x2, self.y - y2)
+        canv.move(self.handle, self.x - x2, self.y - 5 - y2)
 
     def decide(self):
         if self.state != "onElevator" and self.onF != self.desiredF:
@@ -31,6 +31,8 @@ class NPC(Entity):
         if self.state == "notDesiredF":
             if self.x < self.elevator.x+50:
                 self.state = "onElevator"
+                # Press button on elevator
+                self.elevator.requests[self.desiredF] = 2
 
     def step(self):
         self.decide()
@@ -39,14 +41,14 @@ class NPC(Entity):
             self.x += self.speed
             if self.x > self.elevator.building.width:
                 self.alive = False
-        if self.state == "onElevator":
+        elif self.state == "onElevator":
             # Force the elevator to stop at desired floor
-            self.elevator.requests[self.desiredF] = 2
+
             # Attach to elevator
             self.y = self.elevator.y
             self.x = self.elevator.x+50
             self.onF = self.elevator.current_floor
-        if self.state == "notDesiredF":
+        elif self.state == "notDesiredF":
             # Move towards elevator and press button
             if self.elevator.current_floor == self.onF or self.x > 150:
                 self.x -= self.speed
@@ -54,8 +56,8 @@ class NPC(Entity):
                 if self.onF > self.desiredF:
                     # I wanna go down
                     self.elevator.requests[self.onF] = -1
-                    # print self.elevator.requests
+                    print self.elevator.requests
                 elif self.onF < self.desiredF:
                     # I wanna go up
                     self.elevator.requests[self.onF] = 1
-                    # print self.elevator.requests
+                    print self.elevator.requests
