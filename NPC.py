@@ -69,7 +69,7 @@ class NPC(Entity):
         # Act based on state
         if self.state == "onDesiredF":
             self.x += self.speed
-            if self.x > self.elevator.building.width:
+            if self.x > self.elevator.building.width*1.5:
                 self.alive = False
         elif self.state == "onElevator":
             # Attach to elevator

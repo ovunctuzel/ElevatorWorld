@@ -77,6 +77,7 @@ def init_canvas():
     master = Tk()
     canv = Canvas(master, width=CANVAS_WIDTH, height=CANVAS_HEIGHT)
     canv.configure(background="#EEEEEE")
+    canv.master.title("Elevator World by Ovunc Tuzel")
     canv.pack()
     return canv
 

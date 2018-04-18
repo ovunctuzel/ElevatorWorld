@@ -29,7 +29,5 @@ class ElevatorButton(Entity):
     def onClick(self, event):
         """ Callback for elevator button pressed by user. """
         if not self.pressed:
-            print self.floor
             self.pressed = True
             self.elevator.requests[self.floor] = 2
-            print self.elevator.requests

@@ -46,21 +46,17 @@ class ElevatorPanel(Entity):
     def onClickUp(self, event):
         """ Callback for up button pressed by user. """
         if not self.button_up_pressed:
-            print "Clicked on Up F:", self.floor
             self.button_up_pressed = True
             if self.elevator.requests[self.floor] == 2 or self.elevator.requests[self.floor] == -1:
                 self.elevator.requests[self.floor] = 2
             else:
                 self.elevator.requests[self.floor] = 1
-            print self.elevator.requests
 
     def onClickDown(self, event):
         """ Callback for down button pressed by user. """
         if not self.button_down_pressed:
-            print "Clicked on Down F:", self.floor
             self.button_down_pressed = True
             if self.elevator.requests[self.floor] == 2 or self.elevator.requests[self.floor] == 1:
                 self.elevator.requests[self.floor] = 2
             else:
                 self.elevator.requests[self.floor] = -1
-            print self.elevator.requests
