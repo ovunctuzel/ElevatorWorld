@@ -16,7 +16,6 @@ class ElevatorButton(Entity):
 
         canv.tag_bind(self.handle, '<ButtonPress-1>', self.onClick)
 
-
     def animate(self, canv):
         if self.pressed:
             canv.itemconfig(self.handle, fill='orange')
@@ -28,10 +27,9 @@ class ElevatorButton(Entity):
             self.pressed = False
 
     def onClick(self, event):
+        """ Callback for elevator button pressed by user. """
         if not self.pressed:
             print self.floor
             self.pressed = True
             self.elevator.requests[self.floor] = 2
             print self.elevator.requests
-
-

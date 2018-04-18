@@ -23,8 +23,8 @@ class ElevatorPanel(Entity):
             self.button_down = canv.create_polygon(self.x, self.y + h + g, self.x - w / 2, self.y + g, self.x + w / 2,
                                                    self.y + g)
             canv.tag_bind(self.button_down, '<ButtonPress-1>', self.onClickDown)
-        canv.create_rectangle(self.x + 20, self.y + h/2, self.x + 40, self.y - h/2, fill='black')
-        self.display = canv.create_text(self.x+30, self.y, text='*', fill='orange')
+        canv.create_rectangle(self.x + 20, self.y + h / 2, self.x + 40, self.y - h / 2, fill='black')
+        self.display = canv.create_text(self.x + 30, self.y, text='*', fill='orange')
 
     def animate(self, canv):
         if self.button_down_pressed:
@@ -44,6 +44,7 @@ class ElevatorPanel(Entity):
             self.button_down_pressed = False
 
     def onClickUp(self, event):
+        """ Callback for up button pressed by user. """
         if not self.button_up_pressed:
             print "Clicked on Up F:", self.floor
             self.button_up_pressed = True
@@ -54,6 +55,7 @@ class ElevatorPanel(Entity):
             print self.elevator.requests
 
     def onClickDown(self, event):
+        """ Callback for down button pressed by user. """
         if not self.button_down_pressed:
             print "Clicked on Down F:", self.floor
             self.button_down_pressed = True
