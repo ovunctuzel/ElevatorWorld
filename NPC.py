@@ -48,7 +48,10 @@ class NPC(Entity):
                     panel.button_up_pressed = True
                 elif dir == -1:
                     panel.button_down_pressed = True
-        self.elevator.requests[self.onF] = dir
+        if self.elevator.requests[self.onF] != 0:
+            self.elevator.requests[self.onF] = 2
+        else:
+            self.elevator.requests[self.onF] = dir
 
     def step(self):
         self.decide()
@@ -70,8 +73,6 @@ class NPC(Entity):
                 if self.onF > self.desiredF:
                     # Call elevator DOWN
                     self.call_elevator(-1)
-                    # print self.elevator.requests
                 elif self.onF < self.desiredF:
                     # Call elevator UP
                     self.call_elevator(1)
-                    # print self.elevator.requests

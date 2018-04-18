@@ -4,6 +4,7 @@ from Elevator import Elevator
 from NPC import NPC
 from Building import Building
 from ElevatorPanel import ElevatorPanel
+from ElevatorButtons import ElevatorButton
 
 
 def create_panels(elevator):
@@ -24,6 +25,14 @@ def create_elevator(obj_building):
     entities.append(obj_elevator)
     return obj_elevator
 
+
+def create_buttons(elevator):
+    for f in range(obj_building.floors):
+        obj_button = ElevatorButton(elevator)
+        obj_button.floor = elevator.floors - f - 1
+        obj_button.x = obj_building.width - obj_building.floors*30 + obj_button.floor * 30
+        obj_button.y = 25
+        entities.append(obj_button)
 
 def draw_entities(canv, entities):
     for entity in entities:
@@ -80,6 +89,7 @@ entities.append(obj_building)
 obj_elevator = create_elevator(obj_building)
 
 create_panels(obj_elevator)
+create_buttons(obj_elevator)
 obj_building.draw(canv)
 
 # Draw everything
