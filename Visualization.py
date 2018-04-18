@@ -1,6 +1,7 @@
 from Tkinter import *
 from Elevator import Elevator
 from Player import Player
+from NPC import NPC
 from Building import Building
 from ElevatorPanel import ElevatorPanel
 
@@ -58,11 +59,9 @@ entities.append(obj_elevator)
 
 create_panels(obj_elevator)
 
-# obj_player = Player()
-# obj_player.x = 10
-# obj_player.y = 80
-# entities.append(obj_player)
-
+obj_NPC = NPC(4, 1)
+obj_NPC.elevator = obj_elevator
+entities.append(obj_NPC)
 
 obj_building.draw(canv)
 

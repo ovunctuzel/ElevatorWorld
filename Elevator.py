@@ -38,10 +38,24 @@ class Elevator(Entity):
         self.y = f*self.building.floorh
 
     def should_stop(self):
-        # print self.current_floor, self.requests, self.state
-        # print self.current_floor
+        print self.current_floor, self.requests, self.state
+        print self.current_floor
         request = self.requests[self.current_floor]
         return request == 2 or (request == 1 and self.state == "GoUp") or (request == -1 and self.state == "GoDown")
+
+    def return_stoplist(self):
+        if self.state == "GoUp":
+            if any(self.requests[self.current_floor+1:]):
+                return [1,2]
+            else:
+                return [-1,1,2]
+        if self.state == "GoDown":
+            if any(self.requests[:self.current_floor]):
+                return [-1,2]
+            else:
+                return [-1,1,2]
+        else:
+            return [2]
 
     def wait_for_steps(self, time):
         self.timer = time
@@ -59,7 +73,7 @@ class Elevator(Entity):
         if self.timer > 0:
             self.timer -= 1
             return
-
+        print self.state
         if self.state == "Idle":
             self.decide()
 
@@ -69,7 +83,8 @@ class Elevator(Entity):
             self.move(0, self.speed)
 
         self.current_floor = self.get_current_floor()
-        if self.current_floor is not None and self.should_stop():
+        # if self.current_floor is not None and self.should_stop():
+        if self.current_floor is not None and self.requests[self.current_floor] in self.return_stoplist():
             # Clear request
             self.requests[self.current_floor] = 0
             print self.requests
