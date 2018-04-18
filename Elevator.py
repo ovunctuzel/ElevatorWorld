@@ -1,5 +1,5 @@
 from Entity import Entity
-import random
+
 
 class Elevator(Entity):
     def __init__(self, floors=5):
@@ -7,7 +7,9 @@ class Elevator(Entity):
         self.floors = floors
         self.current_floor = 1
         self.speed = 1
-        self.capacity = 4
+        self.max_ct = 4
+        self.NPC_ct = 0
+        self.stopped = True
         self.building = None
         self.handle = None
         self.panel = None
@@ -37,23 +39,26 @@ class Elevator(Entity):
         self.current_floor = f
         self.y = f*self.building.floorh
 
-    def should_stop(self):
-        # print self.current_floor, self.requests, self.state
-        # print self.current_floor
-        request = self.requests[self.current_floor]
-        return request == 2 or (request == 1 and self.state == "GoUp") or (request == -1 and self.state == "GoDown")
+    # def should_stop(self):
+    #     # print self.current_floor, self.requests, self.state
+    #     # print self.current_floor
+    #     request = self.requests[self.current_floor]
+    #     return request == 2 or (request == 1 and self.state == "GoUp") or (request == -1 and self.state == "GoDown")
 
-    def return_stoplist(self):
+    def should_stop(self):
+        request = self.requests[self.current_floor]
+        print request
         if self.state == "GoUp":
+            print ">>>", any(self.requests[self.current_floor+1:])
             if any(self.requests[self.current_floor+1:]):
-                return [1,2]
+                return request in [1,2]
             else:
-                return [-1,1,2]
+                return request in [-1,1,2]
         if self.state == "GoDown":
             if any(self.requests[:self.current_floor]):
-                return [-1,2]
+                return request in [-1,2]
             else:
-                return [-1,1,2]
+                return request in [-1,1,2]
         else:
             return [2]
 
@@ -72,7 +77,10 @@ class Elevator(Entity):
         # This function gets called each step
         if self.timer > 0:
             self.timer -= 1
+            self.stopped = True
             return
+        self.stopped = False
+
         print self.state, self.requests
         if self.state == "Idle":
             self.decide()
@@ -84,7 +92,7 @@ class Elevator(Entity):
 
         self.current_floor = self.get_current_floor()
         # if self.current_floor is not None and self.should_stop():
-        if self.current_floor is not None and self.requests[self.current_floor] in self.return_stoplist():
+        if self.current_floor is not None and self.should_stop():
             # Clear request
             print self.requests
             print "CLEARED"
